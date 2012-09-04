@@ -16,7 +16,7 @@ namespace SignalR.Hosting.AspNet.Samples
         protected void Application_Start(object sender, EventArgs e)
         {
             var pipeline = GlobalHost.DependencyResolver.Resolve<IHubPipeline>();
-            pipeline.Use(new SamplePipelineBuilder());
+            pipeline.AddModule(new SamplePipelineModule());
 
             ThreadPool.QueueUserWorkItem(_ =>
             {
@@ -45,7 +45,7 @@ namespace SignalR.Hosting.AspNet.Samples
             RouteTable.Routes.MapConnection<Streaming>("streaming", "streaming/{*operation}");
         }
 
-        private class SamplePipelineBuilder : HubPipelineBuilder
+        private class SamplePipelineModule : HubPipelineModule
         {
             protected override void OnBeforeInvoke(IHubIncomingInvokerContext context)
             {

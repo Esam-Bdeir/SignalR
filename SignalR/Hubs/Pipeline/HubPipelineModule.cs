@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SignalR.Hubs
 {
-    public class HubPipelineBuilder : IHubPipelineBuilder
+    public class HubPipelineModule : IHubPipelineModule
     {
         public virtual Func<IHubIncomingInvokerContext, Task<object>> BuildIncoming(Func<IHubIncomingInvokerContext, Task<object>> invoke)
         {

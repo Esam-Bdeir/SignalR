@@ -8,8 +8,8 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="module"></param>
         /// <returns></returns>
-        IHubPipeline Use(IHubPipelineBuilder builder);
+        IHubPipeline AddModule(IHubPipelineModule module);
     }
 }

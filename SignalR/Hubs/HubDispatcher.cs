@@ -160,8 +160,8 @@ namespace SignalR.Hubs
                         var continueWithMethod = typeof(HubDispatcher).GetMethod("ContinueWith", BindingFlags.NonPublic | BindingFlags.Static)
                                                                       .MakeGenericMethod(resultType);
 
-                        Expression body = Expression.Call(continueWithMethod, 
-                                                          Expression.Convert(parameter, genericTaskType), 
+                        Expression body = Expression.Call(continueWithMethod,
+                                                          Expression.Convert(parameter, genericTaskType),
                                                           Expression.Constant(tcs));
 
                         var continueWithInvoker = Expression.Lambda<Action<object>>(body, parameter).Compile();
@@ -181,7 +181,7 @@ namespace SignalR.Hubs
             return tcs.Task;
         }
 
-        internal static void ContinueWith<T>(Task<T> task, TaskCompletionSource<object> tcs)
+        private static void ContinueWith<T>(Task<T> task, TaskCompletionSource<object> tcs)
         {
             task.ContinueWith(t =>
             {
@@ -224,7 +224,8 @@ namespace SignalR.Hubs
         {
             var operations = GetHubsImplementingInterface(typeof(T))
                 .Select(hub => CreateHub(request, hub, connectionId))
-                .Select(instance => action(instance).Catch() ?? TaskAsyncHelper.Empty)
+                .Where(hub => hub != null)
+                .Select(hub => action(hub).Catch() ?? TaskAsyncHelper.Empty)
                 .ToList();
 
             if (operations.Count == 0)

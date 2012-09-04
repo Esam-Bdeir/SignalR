@@ -64,10 +64,10 @@ namespace SignalR
         {
             var connection = GetConnection(connectionName: null);
             var hubManager = _resolver.Resolve<IHubManager>();
-            var pipeline = _resolver.Resolve<IHubPipelineInvoker>();
+            var pipelineInvoker = _resolver.Resolve<IHubPipelineInvoker>();
             HubDescriptor hubDescriptor = hubManager.EnsureHub(hubName);
 
-            Func<string, ClientHubInvocation, Task> send = (signal, value) => pipeline.Send(new HubOutgoingInvokerContext(connection, signal, value));
+            Func<string, ClientHubInvocation, Task> send = (signal, value) => pipelineInvoker.Send(new HubOutgoingInvokerContext(connection, signal, value));
 
             return new HubContext(new ClientProxy(send, hubDescriptor.Name), 
                                   new GroupManager(connection, hubName));
