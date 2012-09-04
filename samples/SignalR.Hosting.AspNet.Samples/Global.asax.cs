@@ -15,8 +15,7 @@ namespace SignalR.Hosting.AspNet.Samples
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            var pipeline = GlobalHost.DependencyResolver.Resolve<IHubPipeline>();
-            pipeline.AddModule(new SamplePipelineModule());
+            GlobalHost.HubPipeline.AddModule(new SamplePipelineModule());
 
             ThreadPool.QueueUserWorkItem(_ =>
             {
